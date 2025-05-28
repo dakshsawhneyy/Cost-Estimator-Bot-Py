@@ -13,9 +13,9 @@ topic_arn = response['TopicArn']
 client.subscribe(
     TopicArn = topic_arn,
     Protocol = 'email',
-    Endpoint = 'darkstardaksh@gmail.com'
+    Endpoint = 'youremail@gmail.com'
 )
-print("Subscription request sent. Please check your email to confirm the subscription.")
+print("\nSubscription request sent. Please check your email to confirm the subscription.")
 
 # Wait for confirmation Loop
 while True:
@@ -23,14 +23,26 @@ while True:
     # print(subs)
     subs_arn_status = subs['Subscriptions'][0]['SubscriptionArn']
     if subs_arn_status != 'PendingConfirmation':
-        print("Subscription Confirmed")
+        print("\nSubscription Confirmed")
         break
     else:
-        print("Waiting for subscription confirmation...")
+        print("\nWaiting for subscription confirmation...")
         time.sleep(5)
         
 # Publish A Message
 costs = get_total_cost()
+
+print("\n=== AWS Daily Cost Report Preview ===")
+print(f"EC2 Hourly Cost: ${costs['ec2_hourly']:.3f}")
+print(f"EC2 Monthly Cost: ${costs['ec2_monthly']:.2f}")
+print(f"S3 Total Size (GB): {costs['s3_size']:.5f}")
+print(f"S3 Monthly Cost: ${costs['s3_monthly']:.2f}")
+print(f"RDS Hourly Cost: ${costs['rds_hourly']:.2f}")
+print(f"RDS Monthly Cost: ${costs['rds_monthly']:.2f}")
+print(f"Total Hourly Cost: ${costs['total_hourly']:.2f}")
+print(f"Total Monthly Cost: ${costs['total_monthly']:.2f}")
+print("=== End of Report ===\n")
+
 message = client.publish(
     TopicArn = topic_arn,
     Subject = "AWS Daily Cost Report",
@@ -54,4 +66,4 @@ message = client.publish(
         Monthly: ${costs['total_monthly']:.2f}
     """
 )
-print(f"\n Message Sent: {message}\n")
+# print(f"\n Message Sent: {message}\n")
