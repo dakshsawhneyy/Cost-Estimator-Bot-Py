@@ -65,17 +65,20 @@ def get_running_rds():
 
 
 if __name__ == "__main__":
+    print('\n')
     running_instances = get_running_instances()
-    print("Printing Running Instances: \n")
+    print("Printing Running Instances:")
     for i in running_instances:
         print(f"{i}")
         
     buckets = get_running_S3()
     print("\n")
+    print("Printing Running S3 Buckets:")
     for i in buckets:
         print(f"{i}")
         
     print('\n')
     rds_db = get_running_rds()
+    print("Printing Running RDS Instances:")
     for i in rds_db:
         print(i)
